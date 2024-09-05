@@ -10,12 +10,9 @@ I have joined multiple Scala courses by [Rock The JVM](https://www.youtube.com/@
 
 All code is from the videos in these courses with some additional stuff written by me.
 
-This is from the course Scala at light speed by [Rock The JVM](https://www.youtube.com/@rockthejvm)
-
-
 ## Scala at light speed
 
-Full course here: https://www.youtube.com/playlist?list=PLmtsMNDRU0BxryRX4wiwrTZ661xcp6VPM
+This is from the course Scala at light speed. Full course here: https://www.youtube.com/playlist?list=PLmtsMNDRU0BxryRX4wiwrTZ661xcp6VPM
 
 The course has the following modules:
 * [Hello Scala (Playground)](src/main/scala/com/rockthejvm/Playground.scala)
