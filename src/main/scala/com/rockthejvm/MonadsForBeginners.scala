@@ -1,6 +1,114 @@
 package com.rockthejvm
 
+import scala.concurrent.Future
+import scala.concurrent.ExecutionContext.Implicits.global
+import scala.util.Success
+
 object MonadsForBeginners {
 
+  case class SafeValue[+T](private val internalValue: T) { // "constructor" = pure, or unit
+    def get: T = synchronized {
+      // does something interesting
+      internalValue
+    }
 
+    def flatMap[S](transformer: T => SafeValue[S]): SafeValue[S] = synchronized { // bind, or flatMap
+      transformer(internalValue)
+    }
+  }
+
+  // "external" API
+  def gimmeSafeValue[T](value: T): SafeValue[T] = SafeValue(value)
+
+  val safeString: SafeValue[String] = gimmeSafeValue("Scala is awesome")
+  // extract
+  val string = safeString.get
+  // transform
+  val upperString = string.toUpperCase()
+  // wrap
+  val upperSafeString = SafeValue(upperString)
+  // ETW: Extract, transform, wrap
+
+  // Compressed ETW:
+  val upperSafeString2 = safeString.flatMap(s => SafeValue(s.toUpperCase()))
+
+  // Examples:
+
+  // Example 1: Census
+  case class Person(firstName: String, lastName: String) {
+    assert(firstName != null && lastName != null)
+  }
+  // census API
+  // Traditional Java style null check
+  def getPerson(firstName: String, lastName: String): Person =
+    if (firstName != null) {
+      if (lastName != null) {
+        Person(firstName, lastName)
+      } else {
+        null
+      }
+    } else {
+      null
+    }
+
+  def getPersonBetter(firstName: String, lastName: String): Option[Person] =
+    Option(firstName).flatMap { fName =>
+      Option(lastName).flatMap { lName =>
+        Option(Person(fName, lName))
+      }
+    }
+
+  def getPersonFor(firstName: String, lastName: String): Option[Person] = for {
+    fName <- Option(firstName)
+    lName <- Option(lastName)
+  } yield Person(fName, lName)
+
+  // Example 2: Asynchronous fetches
+  case class User(id: String)
+  case class Product(sku: String, price: Double)
+
+  def getUser(url: String): Future[User] = Future {
+    User("Daniel") // sample implementation
+  }
+
+  def getLastOrder(userId: String): Future[Product] = Future {
+    Product("123-456", 99.99) // sample
+  }
+
+  val danielsUrl = "my.store.com/users/daniel"
+
+  // ETW pattern version:
+  getUser(danielsUrl).onComplete {
+    case Success(User(id)) =>
+      val lastOrder = getLastOrder(id)
+      lastOrder.onComplete( {
+        case Success(Product(sku, p)) =>
+          val vatIncludedPrice = p * 1.19
+          // pass it on - send Daniel an email
+      })
+  }
+
+  // flatMap version of the code above:
+  val vatInclPrice = getUser(danielsUrl)
+    .flatMap(user => getLastOrder(user.id))
+    .map(_.price * 1.19)
+
+  // For comprehension version of the code above:
+  val vatInclPriceFor = for {
+    user <- getUser(danielsUrl)
+    product <- getLastOrder(user.id)
+  } yield product.price * 1.19
+
+  // Example 3: Double for-loops
+  val numbers = List(1,2,3)
+  val chars = List('a', 'b', 'c')
+
+  // flatMaps
+  val checkerboard = numbers.flatMap(number => chars.map(char => (number, char)))
+
+  // For comprehension
+  val checkerboard2 = for {
+    number <- numbers
+    char <- chars
+  } yield (number, char)
 }
