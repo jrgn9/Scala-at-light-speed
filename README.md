@@ -1,7 +1,9 @@
 # Scala at light speed
 
 <p align="right">
-    <img src="https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21" alt="Rock The JVM logo" height="50" width="50">
+    <a href="https://rockthejvm.com/">
+        <img src="https://www.filepicker.io/api/file/oZt3ZMwpTRuvR4k04o21" alt="Rock The JVM logo" height="150" width="150"/>
+    </a>
 </p>
 
 I have joined multiple Scala courses by [Rock The JVM](https://www.youtube.com/@rockthejvm) in this repo. This repo is made for me to practice Scala.
