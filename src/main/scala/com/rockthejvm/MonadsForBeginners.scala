@@ -132,13 +132,19 @@ object MonadsForBeginners {
 
   def main(args: Array[String]): Unit = {
     println(numbers.flatMap(incrementer).flatMap(doubler))
-    // List(1, 2, 2, 4,  2, 4, 3, 6,  3, 6, 4, 8)
+    println(numbers.flatMap(incrementer).flatMap(doubler) == numbers.flatMap(x => incrementer(x).flatMap(doubler))
+    )
+    // List(1, 2, 2, 4,   2, 4, 3, 6,   3, 6, 4, 8)
     /**
      List(
       incrementer(1).flatMap(doubler) -- 1,2,2,4
       incrementer(2).flatMap(doubler) -- 2,4,3,6
       incrementer(3).flatMap(doubler) -- 3,6,4,8
      )
+
+     Monad(v).flatMap(f).flatMap(g) == Monad(v).flatMap(x => f(x).flatMap(g))
+     The left side applies f on all elements and then g on all elements
+     On the right side f.flatMap(g) applied on every elements individually, then combining them all together.
      */
   }
 }
