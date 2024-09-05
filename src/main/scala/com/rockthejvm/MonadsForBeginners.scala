@@ -1,5 +1,7 @@
 package com.rockthejvm
 
+import com.rockthejvm.MonadsForBeginners.numbers
+
 import scala.concurrent.Future
 import scala.concurrent.ExecutionContext.Implicits.global
 import scala.util.Success
@@ -111,4 +113,32 @@ object MonadsForBeginners {
     number <- numbers
     char <- chars
   } yield (number, char)
+
+  // Monad properties
+
+  // Property 1
+  def twoConsecutive(x: Int) = List(x, x + 1)
+  twoConsecutive(3) // List(3,4)
+  List(3).flatMap(twoConsecutive) // = List(3, 4)
+  // Monad(x).flatMap(f) == f(x)
+
+  // Property 2
+  List(1,2,3).flatMap(x => List(x)) // List(1,2,3)
+  // Monad(v).flatMap(x => Monad(x)) Useless, returns Monad(v)
+
+  // Property 3 - ETW-ETW
+  val incrementer = (x: Int) => List(x, x + 1)
+  val doubler = (x: Int) => List(x, 2 * x)
+
+  def main(args: Array[String]): Unit = {
+    println(numbers.flatMap(incrementer).flatMap(doubler))
+    // List(1, 2, 2, 4,  2, 4, 3, 6,  3, 6, 4, 8)
+    /**
+     List(
+      incrementer(1).flatMap(doubler) -- 1,2,2,4
+      incrementer(2).flatMap(doubler) -- 2,4,3,6
+      incrementer(3).flatMap(doubler) -- 3,6,4,8
+     )
+     */
+  }
 }
