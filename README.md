@@ -38,3 +38,16 @@ This video is for Scala programmers with some essential skills (generics, Option
 Written version can be found here: https://blog.rockthejvm.com/monads/
 
 The code from this video can be found at [MonadsForBeginners](com/rockthejvm/MonadsForBeginners.scala)
+
+## Akka HTTP
+
+I have included code from the video 
+[Sending HTTP requests with Scala & Akka HTTP](https://www.youtube.com/watch?v=Agze0Ule5_0).
+This video is for the Scala programmer who needs to send HTTP requests quickly and without caring too much about the 
+intricacies. Using the Akka library to do HTTP requests. Written version can be found here: 
+https://blog.rockthejvm.com/a-5-minute-akka-http-client/
+
+The code from this video can be found at [AkkaHttp](com/rockthejvm/AkkaHttp.scala)
+
+**Note:** I have not been able to get this code to run. The markup API used in the video is down. I tried to do a 
+HTTP call to [JSONPlaceholder](https://jsonplaceholder.typicode.com/) but did not manage to get it right.
