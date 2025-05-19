@@ -6,6 +6,10 @@
     </a>
 </p>
 
+> ## ⚠️ Migrated to Codeberg
+>
+> This project has [migrated to Codeberg](https://codeberg.org/jrgn9/Scala-at-light-speed).
+
 I have joined multiple Scala courses by [Rock The JVM](https://www.youtube.com/@rockthejvm) in this repo. This repo is made for me to practice Scala.
 
 All code is from the videos in these courses with some additional stuff written by me.
